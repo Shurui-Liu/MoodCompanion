@@ -37,7 +37,11 @@ function ChatPage() {
     setLoading(true);
 
     try {
-      const response = await api.post("/chat", { message: input });
+      const response = await api.post("/chat", {   
+        message: input,
+        savedMessages,
+        unsavedMessages,
+    });
       const aiMessage = { sender: "ai", text: response.data.reply };
       setUnsavedMessages((prevMessages) => [...prevMessages, aiMessage]);
     } catch (error) {

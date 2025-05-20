@@ -12,7 +12,7 @@ const chatController = {
    */
   async chatMessage(req, res) {
     try {
-      const { message } = req.body;
+      const { message, savedMessages = [], unsavedMessages = [] } = req.body;
 
       if (!message || message.trim() === "") {
         return res.status(400).json({
@@ -21,7 +21,7 @@ const chatController = {
         });
       }
 
-      const aiResponse = await chatServices.getAIResponse(message);
+      const aiResponse = await chatServices.getAIResponse(message, [...savedMessages, ...unsavedMessages]);
 
       res.status(200).json({
         success: true,

@@ -5,9 +5,12 @@ dotenv.config();
 const { retrieveContext } = require("./retrievalService");
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const { ChatOpenAI } = require("@langchain/openai");
+const { ChatMessageHistory } = require("langchain/stores/message/in_memory");
+const { HumanMessage, AIMessage, SystemMessage } = require("@langchain/core/messages");
 
 const chatServices = {
-  async getAIResponse(message) {
+  async getAIResponse(message, fullHistory = []) {
     // Step 1: Classify if there's distorted thinking
     const classificationResponse = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
